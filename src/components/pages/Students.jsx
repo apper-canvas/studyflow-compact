@@ -69,11 +69,11 @@ function Students() {
     setEditingStudent(null);
   };
 
-  const filteredStudents = students.filter(student =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.major?.toLowerCase().includes(searchTerm.toLowerCase())
+const filteredStudents = students.filter(student =>
+    (student.Name || student.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (student.email_c || student.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (student.studentId_c || student.studentId || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (student.major_c || student.major || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getYearBadgeColor = (year) => {
@@ -164,11 +164,11 @@ function Students() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center text-white font-semibold">
-                      {student.name.charAt(0).toUpperCase()}
+{(student.Name || student.name || 'S').charAt(0).toUpperCase()}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{student.name}</h3>
-                      <p className="text-sm text-gray-500">{student.studentId}</p>
+                      <h3 className="font-semibold text-gray-900">{student.Name || student.name}</h3>
+                      <p className="text-sm text-gray-500">{student.studentId_c || student.studentId}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-1">
@@ -194,23 +194,23 @@ function Students() {
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center text-sm text-gray-600">
                     <ApperIcon name="Mail" size={16} className="mr-2" />
-                    {student.email}
+{student.email_c || student.email}
                   </div>
-                  {student.major && (
+                  {(student.major_c || student.major) && (
                     <div className="flex items-center text-sm text-gray-600">
                       <ApperIcon name="BookOpen" size={16} className="mr-2" />
-                      {student.major}
+                      {student.major_c || student.major}
                     </div>
                   )}
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Badge className={`text-xs ${getYearBadgeColor(student.year)}`}>
-                      Year {student.year}
+<Badge className={`text-xs ${getYearBadgeColor(student.year_c || student.year)}`}>
+                      Year {student.year_c || student.year}
                     </Badge>
-                    <Badge className={`text-xs ${getGpaBadgeColor(student.gpa)}`}>
-                      GPA: {student.gpa.toFixed(1)}
+                    <Badge className={`text-xs ${getGpaBadgeColor(student.gpa_c || student.gpa)}`}>
+                      GPA: {(student.gpa_c || student.gpa || 0).toFixed(1)}
                     </Badge>
                   </div>
                 </div>

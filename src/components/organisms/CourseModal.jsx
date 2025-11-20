@@ -32,14 +32,14 @@ const CourseModal = ({ isOpen, onClose, course, onSuccess }) => {
   ]
 
   useEffect(() => {
-    if (course) {
+if (course) {
       setFormData({
-        name: course.name || "",
-        code: course.code || "",
-        instructor: course.instructor || "",
-        credits: course.credits || 3,
-        color: course.color || "#4f46e5",
-        semester: course.semester || "Fall 2024"
+        name: course.Name || course.name || "",
+        code: course.code_c || course.code || "",
+        instructor: course.instructor_c || course.instructor || "",
+        credits: course.credits_c || course.credits || 3,
+        color: course.color_c || course.color || "#4f46e5",
+        semester: course.semester_c || course.semester || "Fall 2024"
       })
     } else {
       setFormData({
@@ -73,13 +73,13 @@ const CourseModal = ({ isOpen, onClose, course, onSuccess }) => {
         return
       }
 
-      const courseData = {
-        name: formData.name.trim(),
-        code: formData.code.trim().toUpperCase(),
-        instructor: formData.instructor.trim(),
-        credits: parseInt(formData.credits),
-        color: formData.color,
-        semester: formData.semester
+const courseData = {
+        Name: formData.name.trim(),
+        code_c: formData.code.trim().toUpperCase(),
+        instructor_c: formData.instructor.trim(),
+        credits_c: parseInt(formData.credits),
+        color_c: formData.color,
+        semester_c: formData.semester
       }
 
       if (course) {

@@ -97,26 +97,26 @@ const Assignments = () => {
 
   const getCourseById = (courseId) => courses.find(c => c.Id === courseId)
 
-  const filteredAndSortedAssignments = assignments
+const filteredAndSortedAssignments = assignments
     .filter(assignment => {
-      if (filters.status !== "all" && assignment.status !== filters.status) return false
-      if (filters.priority !== "all" && assignment.priority !== filters.priority) return false
-      if (filters.course !== "all" && assignment.courseId !== parseInt(filters.course)) return false
+      if (filters.status !== "all" && (assignment.status_c || assignment.status) !== filters.status) return false
+      if (filters.priority !== "all" && (assignment.priority_c || assignment.priority) !== filters.priority) return false
+      if (filters.course !== "all" && (assignment.courseId_c || assignment.courseId) !== parseInt(filters.course)) return false
       return true
     })
     .sort((a, b) => {
       switch (filters.sort) {
         case "dueDate":
-          return new Date(a.dueDate) - new Date(b.dueDate)
+          return new Date(a.dueDate_c || a.dueDate) - new Date(b.dueDate_c || b.dueDate)
         case "priority":
           const priorityOrder = { high: 0, medium: 1, low: 2 }
-          return priorityOrder[a.priority] - priorityOrder[b.priority]
+          return priorityOrder[a.priority_c || a.priority] - priorityOrder[b.priority_c || b.priority]
         case "course":
-          const courseA = getCourseById(a.courseId)?.name || ""
-          const courseB = getCourseById(b.courseId)?.name || ""
+          const courseA = getCourseById(a.courseId_c || a.courseId)?.Name || getCourseById(a.courseId_c || a.courseId)?.name || ""
+          const courseB = getCourseById(b.courseId_c || b.courseId)?.Name || getCourseById(b.courseId_c || b.courseId)?.name || ""
           return courseA.localeCompare(courseB)
         case "title":
-          return a.title.localeCompare(b.title)
+          return (a.title_c || a.title).localeCompare(b.title_c || b.title)
         default:
           return 0
       }
@@ -160,11 +160,11 @@ const Assignments = () => {
     )
   }
 
-  const totalAssignments = assignments.length
-  const completedAssignments = assignments.filter(a => a.status === "completed").length
-  const pendingAssignments = assignments.filter(a => a.status === "pending").length
+const totalAssignments = assignments.length
+  const completedAssignments = assignments.filter(a => (a.status_c || a.status) === "completed").length
+  const pendingAssignments = assignments.filter(a => (a.status_c || a.status) === "pending").length
   const overdueCount = assignments.filter(a => 
-    a.status === "pending" && isPast(new Date(a.dueDate))
+    (a.status_c || a.status) === "pending" && isPast(new Date(a.dueDate_c || a.dueDate))
   ).length
 
   return (
@@ -349,9 +349,9 @@ const Assignments = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.05 * index }}
             >
-              <AssignmentItem
+<AssignmentItem
                 assignment={assignment}
-                course={getCourseById(assignment.courseId)}
+                course={getCourseById(assignment.courseId_c || assignment.courseId)}
                 onToggle={handleToggleAssignment}
                 onEdit={handleEditAssignment}
                 onDelete={handleDeleteAssignment}

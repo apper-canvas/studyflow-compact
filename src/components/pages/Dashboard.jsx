@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { motion } from "framer-motion"
-import { isToday, isTomorrow, isPast, format } from "date-fns"
-import Loading from "@/components/ui/Loading"
-import ErrorView from "@/components/ui/ErrorView"
-import Empty from "@/components/ui/Empty"
-import StatCard from "@/components/molecules/StatCard"
-import AssignmentItem from "@/components/molecules/AssignmentItem"
-import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
-import { courseService } from "@/services/api/courseService"
-import { assignmentService } from "@/services/api/assignmentService"
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { format, isPast, isToday, isTomorrow } from "date-fns";
+import { courseService } from "@/services/api/courseService";
+import { assignmentService } from "@/services/api/assignmentService";
+import ApperIcon from "@/components/ApperIcon";
+import StatCard from "@/components/molecules/StatCard";
+import AssignmentItem from "@/components/molecules/AssignmentItem";
+import Loading from "@/components/ui/Loading";
+import Empty from "@/components/ui/Empty";
+import ErrorView from "@/components/ui/ErrorView";
+import Courses from "@/components/pages/Courses";
+import Calendar from "@/components/pages/Calendar";
+import Assignments from "@/components/pages/Assignments";
+import GPA from "@/components/pages/GPA";
+import Button from "@/components/atoms/Button";
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -45,31 +49,31 @@ const Dashboard = () => {
   if (error) return <ErrorView message={error} onRetry={loadData} />
 
   const upcomingAssignments = assignments
-    .filter(a => a.status === "pending")
-    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+.filter(a => (a.status_c || a.status) === "pending")
+    .sort((a, b) => new Date(a.dueDate_c || a.dueDate) - new Date(b.dueDate_c || b.dueDate))
     .slice(0, 5)
 
   const dueTodayCount = assignments.filter(a => 
-    a.status === "pending" && isToday(new Date(a.dueDate))
+    (a.status_c || a.status) === "pending" && isToday(new Date(a.dueDate_c || a.dueDate))
   ).length
 
   const dueTomorrowCount = assignments.filter(a => 
-    a.status === "pending" && isTomorrow(new Date(a.dueDate))
+    (a.status_c || a.status) === "pending" && isTomorrow(new Date(a.dueDate_c || a.dueDate))
   ).length
 
   const overdueCount = assignments.filter(a => 
-    a.status === "pending" && isPast(new Date(a.dueDate))
+    (a.status_c || a.status) === "pending" && isPast(new Date(a.dueDate_c || a.dueDate))
   ).length
 
   const completionRate = assignments.length > 0 
-    ? Math.round((assignments.filter(a => a.status === "completed").length / assignments.length) * 100)
+    ? Math.round((assignments.filter(a => (a.status_c || a.status) === "completed").length / assignments.length) * 100)
     : 0
 
   const currentGPA = courses.length > 0
-    ? (courses.reduce((sum, course) => sum + course.currentGrade, 0) / courses.length / 100 * 4).toFixed(2)
+    ? (courses.reduce((sum, course) => sum + (course.currentGrade_c || course.currentGrade || 0), 0) / courses.length / 100 * 4).toFixed(2)
     : "0.00"
 
-  const getCourseById = (courseId) => courses.find(c => c.Id === courseId)
+const getCourseById = (courseId) => courses.find(c => c.Id === (courseId || courseId_c))
 
   const handleToggleAssignment = async (assignment) => {
     try {
@@ -204,14 +208,14 @@ const Dashboard = () => {
                 <div key={course.Id} className="flex items-center gap-3">
                   <div 
                     className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: course.color }}
+style={{ backgroundColor: course.color_c || course.color }}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 truncate">{course.code}</p>
-                    <p className="text-xs text-gray-500 truncate">{course.name}</p>
+                    <p className="text-sm font-semibold text-gray-900 truncate">{course.code_c || course.code}</p>
+                    <p className="text-xs text-gray-500 truncate">{course.Name || course.name}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-gray-900">{course.currentGrade.toFixed(1)}%</p>
+                    <p className="text-sm font-bold text-gray-900">{(course.currentGrade_c || course.currentGrade || 0).toFixed(1)}%</p>
                   </div>
                 </div>
               ))}
@@ -306,9 +310,9 @@ const Dashboard = () => {
           <div className="space-y-4">
             {upcomingAssignments.map((assignment) => (
               <AssignmentItem
-                key={assignment.Id}
+key={assignment.Id}
                 assignment={assignment}
-                course={getCourseById(assignment.courseId)}
+                course={getCourseById(assignment.courseId_c || assignment.courseId)}
                 onToggle={handleToggleAssignment}
               />
             ))}

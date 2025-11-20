@@ -1,15 +1,21 @@
-import { createBrowserRouter } from "react-router-dom"
-import { lazy, Suspense } from "react"
-import Layout from "@/components/organisms/Layout"
+import { createBrowserRouter } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { getRouteConfig } from "./route.utils";
+import Root from "@/layouts/Root";
+import Layout from "@/components/organisms/Layout";
 
 // Lazy load page components
-const Dashboard = lazy(() => import("@/components/pages/Dashboard"))
-const Courses = lazy(() => import("@/components/pages/Courses"))
-const Assignments = lazy(() => import("@/components/pages/Assignments"))
-const Calendar = lazy(() => import("@/components/pages/Calendar"))
-const Students = lazy(() => import("@/components/pages/Students"))
-const GPA = lazy(() => import("@/components/pages/GPA"))
-const NotFound = lazy(() => import("@/components/pages/NotFound"))
+const Dashboard = lazy(() => import("@/components/pages/Dashboard"));
+const Courses = lazy(() => import("@/components/pages/Courses"));
+const Assignments = lazy(() => import("@/components/pages/Assignments"));
+const Calendar = lazy(() => import("@/components/pages/Calendar"));
+const Students = lazy(() => import("@/components/pages/Students"));
+const GPA = lazy(() => import("@/components/pages/GPA"));
+const NotFound = lazy(() => import("@/components/pages/NotFound"));
+const Login = lazy(() => import("@/components/pages/Login"));
+const Signup = lazy(() => import("@/components/pages/Signup"));
+const Callback = lazy(() => import("@/components/pages/Callback"));
+const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"));
 
 const LoadingSpinner = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -22,44 +28,104 @@ const LoadingSpinner = () => (
   </div>
 )
 
-const mainRoutes = [
-  { 
-    path: "", 
-    index: true, 
-    element: <Suspense fallback={<LoadingSpinner />}><Dashboard /></Suspense> 
-  },
-  { 
-    path: "courses", 
-    element: <Suspense fallback={<LoadingSpinner />}><Courses /></Suspense> 
-  },
-  { 
-    path: "assignments", 
-    element: <Suspense fallback={<LoadingSpinner />}><Assignments /></Suspense> 
-  },
-  { 
-    path: "calendar", 
-    element: <Suspense fallback={<LoadingSpinner />}><Calendar /></Suspense> 
-  },
-  { 
-path: "students", 
-    element: <Suspense fallback={<LoadingSpinner />}><Students /></Suspense> 
-  },
-  {
-    path: "gpa", 
-    element: <Suspense fallback={<LoadingSpinner />}><GPA /></Suspense>
-  },
-  { 
-    path: "*", 
-    element: <Suspense fallback={<LoadingSpinner />}><NotFound /></Suspense> 
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  // Get config for this route
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
   }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={<LoadingSpinner />}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
+const mainRoutes = [
+  createRoute({ 
+    index: true, 
+    element: <Dashboard />
+  }),
+  createRoute({ 
+    path: "courses", 
+    element: <Courses />
+  }),
+  createRoute({ 
+    path: "assignments", 
+    element: <Assignments />
+  }),
+  createRoute({ 
+    path: "calendar", 
+    element: <Calendar />
+  }),
+  createRoute({
+    path: "students", 
+    element: <Students />
+  }),
+  createRoute({
+    path: "gpa", 
+    element: <GPA />
+  }),
+  createRoute({ 
+    path: "*", 
+    element: <NotFound />
+  })
+]
+
+const authRoutes = [
+  createRoute({
+    path: "login",
+    element: <Login />
+  }),
+  createRoute({
+    path: "signup",
+    element: <Signup />
+  }),
+  createRoute({
+    path: "callback",
+    element: <Callback />
+  }),
+  createRoute({
+    path: "error",
+    element: <ErrorPage />
+  })
 ]
 
 const routes = [
   {
     path: "/",
-    element: <Layout />,
-    children: [...mainRoutes]
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Layout />,
+        children: [...mainRoutes]
+      },
+      ...authRoutes
+    ]
   }
 ]
 
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter(routes);

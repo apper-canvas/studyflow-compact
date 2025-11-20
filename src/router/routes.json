@@ -1,0 +1,110 @@
+{
+  "/": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Dashboard is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/login": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Login page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/signup": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Signup page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/callback": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Callback page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/courses": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Courses page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/assignments": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Assignments page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/calendar": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Calendar page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/students": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Students page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/gpa": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "GPA page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  }
+}

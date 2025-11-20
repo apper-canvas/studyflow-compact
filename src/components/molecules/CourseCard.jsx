@@ -26,7 +26,7 @@ const CourseCard = ({ course, onEdit, onDelete, className }) => {
       {/* Color stripe */}
       <div 
         className="absolute top-0 left-0 w-full h-1 rounded-t-2xl"
-        style={{ backgroundColor: course.color }}
+style={{ backgroundColor: course.color_c || course.color }}
       />
       
       <div className="space-y-4">
@@ -36,17 +36,17 @@ const CourseCard = ({ course, onEdit, onDelete, className }) => {
               <Badge 
                 className="font-bold text-xs px-2 py-1"
                 style={{ 
-                  backgroundColor: `${course.color}15`,
-                  color: course.color,
-                  border: `1px solid ${course.color}30`
+backgroundColor: `${course.color_c || course.color}15`,
+                  color: course.color_c || course.color,
+                  border: `1px solid ${course.color_c || course.color}30`
                 }}
               >
-                {course.code}
+                {course.code_c || course.code}
               </Badge>
               <span className="text-sm text-gray-500 font-medium">{course.credits} credits</span>
             </div>
-            <h3 className="font-bold text-gray-900 text-lg leading-tight">{course.name}</h3>
-            <p className="text-sm text-gray-600 font-medium">{course.instructor}</p>
+<h3 className="font-bold text-gray-900 text-lg leading-tight">{course.Name || course.name}</h3>
+            <p className="text-sm text-gray-600 font-medium">{course.instructor_c || course.instructor}</p>
           </div>
           
           <div className="flex items-center gap-1">
@@ -76,8 +76,8 @@ const CourseCard = ({ course, onEdit, onDelete, className }) => {
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Current Grade</span>
             <div className="flex items-center gap-2">
-              <span className={cn("text-2xl font-bold", getGradeColor(course.currentGrade))}>
-                {course.currentGrade.toFixed(1)}%
+<span className={cn("text-2xl font-bold", getGradeColor(course.currentGrade_c || course.currentGrade || 0))}>
+                {(course.currentGrade_c || course.currentGrade || 0).toFixed(1)}%
               </span>
               <div className="p-1.5 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg">
                 <ApperIcon name="TrendingUp" className="w-4 h-4 text-white" />
@@ -89,8 +89,8 @@ const CourseCard = ({ course, onEdit, onDelete, className }) => {
           <div className="mt-3 w-full bg-gray-200 rounded-full h-2 overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${course.currentGrade}%` }}
+initial={{ width: 0 }}
+              animate={{ width: `${course.currentGrade_c || course.currentGrade || 0}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
           </div>
@@ -100,7 +100,7 @@ const CourseCard = ({ course, onEdit, onDelete, className }) => {
         <div className="flex justify-between items-center">
           <Badge variant="default" className="font-medium">
             <ApperIcon name="Calendar" className="w-3 h-3 mr-1" />
-            {course.semester}
+{course.semester_c || course.semester}
           </Badge>
         </div>
       </div>

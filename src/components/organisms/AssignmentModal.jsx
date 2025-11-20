@@ -23,17 +23,17 @@ const AssignmentModal = ({ isOpen, onClose, assignment, courses, onSuccess }) =>
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
-    if (assignment) {
-      const dueDate = new Date(assignment.dueDate)
+if (assignment) {
+      const dueDate = new Date(assignment.dueDate_c || assignment.dueDate)
       setFormData({
-        title: assignment.title || "",
-        description: assignment.description || "",
-        courseId: assignment.courseId || "",
+        title: assignment.title_c || assignment.title || "",
+        description: assignment.description_c || assignment.description || "",
+        courseId: assignment.courseId_c || assignment.courseId || "",
         dueDate: dueDate.toISOString().split("T")[0],
         dueTime: dueDate.toTimeString().slice(0, 5),
-        priority: assignment.priority || "medium",
-        maxPoints: assignment.maxPoints || 100,
-        weight: assignment.weight || 0.1
+        priority: assignment.priority_c || assignment.priority || "medium",
+        maxPoints: assignment.maxPoints_c || assignment.maxPoints || 100,
+        weight: assignment.weight_c || assignment.weight || 0.1
       })
     } else {
       // Set default date to tomorrow
@@ -75,14 +75,14 @@ const AssignmentModal = ({ isOpen, onClose, assignment, courses, onSuccess }) =>
       // Combine date and time
       const dueDateTime = new Date(`${formData.dueDate}T${formData.dueTime}:00`)
 
-      const assignmentData = {
-        title: formData.title.trim(),
-        description: formData.description.trim(),
-        courseId: parseInt(formData.courseId),
-        dueDate: dueDateTime.toISOString(),
-        priority: formData.priority,
-        maxPoints: parseInt(formData.maxPoints),
-        weight: parseFloat(formData.weight)
+const assignmentData = {
+        title_c: formData.title.trim(),
+        description_c: formData.description.trim(),
+        courseId_c: parseInt(formData.courseId),
+        dueDate_c: dueDateTime.toISOString(),
+        priority_c: formData.priority,
+        maxPoints_c: parseInt(formData.maxPoints),
+        weight_c: parseFloat(formData.weight)
       }
 
       if (assignment) {
@@ -178,8 +178,8 @@ const AssignmentModal = ({ isOpen, onClose, assignment, courses, onSuccess }) =>
                 >
                   <option value="">Select a course</option>
                   {courses.map(course => (
-                    <option key={course.Id} value={course.Id}>
-                      {course.code} - {course.name}
+<option key={course.Id} value={course.Id}>
+                      {course.code_c || course.code} - {course.Name || course.name}
                     </option>
                   ))}
                 </Select>

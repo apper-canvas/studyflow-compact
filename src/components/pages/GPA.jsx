@@ -48,10 +48,10 @@ const GPA = () => {
     calculateGPA()
   }, [gradeEntries, selectedSemester])
 
-  const [newGradeEntry, setNewGradeEntry] = useState({
-    courseId: "",
-    grade: "",
-    credits: 3
+const [newGradeEntry, setNewGradeEntry] = useState({
+    courseId_c: "",
+    grade_c: "",
+    credits_c: 3
   })
 
   const gradeOptions = [
@@ -80,9 +80,9 @@ const GPA = () => {
 
     try {
       setCalculating(true)
-      const semesterGrades = gradeEntries.filter(entry => {
-        const course = courses.find(c => c.Id === entry.courseId)
-        return course?.semester === selectedSemester
+const semesterGrades = gradeEntries.filter(entry => {
+        const course = courses.find(c => c.Id === (entry.courseId_c || entry.courseId))
+        return (course?.semester_c || course?.semester) === selectedSemester
       })
       
       const gpa = await gradeService.calculateGPA(semesterGrades)
@@ -95,32 +95,34 @@ const GPA = () => {
     }
   }
 
-  const handleAddGrade = async (e) => {
+const handleAddGrade = async (e) => {
     e.preventDefault()
     
-    if (!newGradeEntry.courseId || !newGradeEntry.grade) {
+    if (!newGradeEntry.courseId_c || !newGradeEntry.grade_c) {
       toast.error("Please select both course and grade")
       return
     }
 
     try {
       const gradeData = {
-        courseId: parseInt(newGradeEntry.courseId),
-        grade: newGradeEntry.grade,
-        credits: parseInt(newGradeEntry.credits),
-        gradePoint: gradeService.letterToGPA(newGradeEntry.grade)
+        courseId_c: parseInt(newGradeEntry.courseId_c),
+        grade_c: newGradeEntry.grade_c,
+        credits_c: parseInt(newGradeEntry.credits_c),
+        gradePoint_c: gradeService.letterToGPA(newGradeEntry.grade_c)
       }
 
-      await gradeService.create(gradeData)
-      setGradeEntries(prev => [...prev, gradeData])
-      
-      setNewGradeEntry({
-        courseId: "",
-        grade: "",
-        credits: 3
-      })
-      
-      toast.success("Grade added successfully!")
+      const result = await gradeService.create(gradeData)
+      if (result) {
+        setGradeEntries(prev => [...prev, result])
+        
+        setNewGradeEntry({
+          courseId_c: "",
+          grade_c: "",
+          credits_c: 3
+        })
+        
+        toast.success("Grade added successfully!")
+      }
     } catch (error) {
       console.error("Error adding grade:", error)
       toast.error("Failed to add grade")
@@ -158,9 +160,9 @@ const GPA = () => {
     )
   }
 
-  const semesterGrades = gradeEntries.filter(entry => {
-    const course = courses.find(c => c.Id === entry.courseId)
-    return course?.semester === selectedSemester
+const semesterGrades = gradeEntries.filter(entry => {
+    const course = courses.find(c => c.Id === (entry.courseId_c || entry.courseId))
+    return (course?.semester_c || course?.semester) === selectedSemester
   })
 
   const totalCredits = semesterGrades.reduce((sum, entry) => sum + entry.credits, 0)
@@ -295,10 +297,10 @@ const GPA = () => {
                   >
                     <option value="">Select a course</option>
                     {courses
-                      .filter(course => course.semester === selectedSemester)
+.filter(course => (course.semester_c || course.semester) === selectedSemester)
                       .map(course => (
                       <option key={course.Id} value={course.Id}>
-                        {course.code} - {course.name}
+                        {course.code_c || course.code} - {course.Name || course.name}
                       </option>
                     ))}
                   </Select>
@@ -375,14 +377,14 @@ const GPA = () => {
               />
             ) : (
               <div className="space-y-3">
-                {semesterGrades.map((entry, index) => {
-                  const course = courses.find(c => c.Id === entry.courseId)
+{semesterGrades.map((entry, index) => {
+                  const course = courses.find(c => c.Id === (entry.courseId_c || entry.courseId))
                   return (
                     <motion.div
                       key={index}
                       className={cn(
                         "p-4 rounded-xl border transition-all duration-200",
-                        getGradeColor(entry.gradePoint)
+                        getGradeColor(entry.gradePoint_c || entry.gradePoint)
                       )}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}

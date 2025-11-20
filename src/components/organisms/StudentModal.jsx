@@ -25,14 +25,14 @@ function StudentModal({ isOpen, onClose, student, onStudentChange }) {
   // Initialize form data when modal opens or student changes
   useEffect(() => {
     if (isOpen) {
-      if (student) {
+if (student) {
         setFormData({
-          name: student.name || '',
-          email: student.email || '',
-          studentId: student.studentId || '',
-          major: student.major || '',
-          year: student.year || 1,
-          gpa: student.gpa || 0
+          name: student.Name || student.name || '',
+          email: student.email_c || student.email || '',
+          studentId: student.studentId_c || student.studentId || '',
+          major: student.major_c || student.major || '',
+          year: parseInt(student.year_c || student.year || 1),
+          gpa: parseFloat(student.gpa_c || student.gpa || 0)
         });
       } else {
         setFormData({

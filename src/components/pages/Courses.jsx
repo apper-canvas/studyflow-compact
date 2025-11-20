@@ -94,9 +94,9 @@ const Courses = () => {
     )
   }
 
-  const totalCredits = courses.reduce((sum, course) => sum + course.credits, 0)
+const totalCredits = courses.reduce((sum, course) => sum + (course.credits_c || course.credits || 0), 0)
   const averageGrade = courses.length > 0 
-    ? courses.reduce((sum, course) => sum + course.currentGrade, 0) / courses.length 
+    ? courses.reduce((sum, course) => sum + (course.currentGrade_c || course.currentGrade || 0), 0) / courses.length 
     : 0
 
   return (
