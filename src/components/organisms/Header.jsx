@@ -11,7 +11,8 @@ const Header = () => {
     { path: "/", label: "Dashboard", icon: "LayoutDashboard" },
     { path: "/courses", label: "Courses", icon: "BookOpen" },
     { path: "/assignments", label: "Assignments", icon: "FileText" },
-    { path: "/calendar", label: "Calendar", icon: "Calendar" },
+{ path: "/calendar", label: "Calendar", icon: "Calendar" },
+    { path: "/students", label: "Students", icon: "Users" },
     { path: "/gpa", label: "GPA", icon: "Calculator" }
   ]
 

@@ -7,6 +7,7 @@ const Dashboard = lazy(() => import("@/components/pages/Dashboard"))
 const Courses = lazy(() => import("@/components/pages/Courses"))
 const Assignments = lazy(() => import("@/components/pages/Assignments"))
 const Calendar = lazy(() => import("@/components/pages/Calendar"))
+const Students = lazy(() => import("@/components/pages/Students"))
 const GPA = lazy(() => import("@/components/pages/GPA"))
 const NotFound = lazy(() => import("@/components/pages/NotFound"))
 
@@ -40,8 +41,12 @@ const mainRoutes = [
     element: <Suspense fallback={<LoadingSpinner />}><Calendar /></Suspense> 
   },
   { 
+path: "students", 
+    element: <Suspense fallback={<LoadingSpinner />}><Students /></Suspense> 
+  },
+  {
     path: "gpa", 
-    element: <Suspense fallback={<LoadingSpinner />}><GPA /></Suspense> 
+    element: <Suspense fallback={<LoadingSpinner />}><GPA /></Suspense>
   },
   { 
     path: "*", 
