@@ -1,0 +1,23 @@
+[
+  {
+    "courseId": 1,
+    "assignmentId": 6,
+    "grade": "A",
+    "credits": 4,
+    "gradePoint": 4.0
+  },
+  {
+    "courseId": 2,
+    "assignmentId": 7,
+    "grade": "B+",
+    "credits": 3,
+    "gradePoint": 3.3
+  },
+  {
+    "courseId": 3,
+    "assignmentId": 8,
+    "grade": "A-",
+    "credits": 3,
+    "gradePoint": 3.7
+  }
+]

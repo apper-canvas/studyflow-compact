@@ -1,0 +1,98 @@
+[
+  {
+    "Id": 1,
+    "courseId": 1,
+    "title": "Programming Assignment 1: Variables and Functions",
+    "description": "Create a simple program demonstrating variable declaration and function usage",
+    "dueDate": "2024-12-20T23:59:59.000Z",
+    "priority": "medium",
+    "status": "pending",
+    "grade": null,
+    "maxPoints": 100,
+    "weight": 0.15
+  },
+  {
+    "Id": 2,
+    "courseId": 2,
+    "title": "Calculus Problem Set 3",
+    "description": "Solve problems 1-25 from Chapter 4: Derivatives",
+    "dueDate": "2024-12-18T23:59:59.000Z",
+    "priority": "high",
+    "status": "pending",
+    "grade": null,
+    "maxPoints": 50,
+    "weight": 0.10
+  },
+  {
+    "Id": 3,
+    "courseId": 3,
+    "title": "Essay: The Impact of Social Media",
+    "description": "Write a 1000-word argumentative essay on social media's impact on society",
+    "dueDate": "2024-12-22T23:59:59.000Z",
+    "priority": "medium",
+    "status": "pending",
+    "grade": null,
+    "maxPoints": 100,
+    "weight": 0.20
+  },
+  {
+    "Id": 4,
+    "courseId": 4,
+    "title": "Physics Lab Report 2",
+    "description": "Complete analysis of pendulum motion experiment",
+    "dueDate": "2024-12-19T23:59:59.000Z",
+    "priority": "high",
+    "status": "pending",
+    "grade": null,
+    "maxPoints": 75,
+    "weight": 0.15
+  },
+  {
+    "Id": 5,
+    "courseId": 5,
+    "title": "Midterm Research Paper",
+    "description": "Research paper on the causes of World War I (2000 words)",
+    "dueDate": "2024-12-21T23:59:59.000Z",
+    "priority": "high",
+    "status": "pending",
+    "grade": null,
+    "maxPoints": 150,
+    "weight": 0.25
+  },
+  {
+    "Id": 6,
+    "courseId": 1,
+    "title": "Algorithm Analysis Quiz",
+    "description": "Online quiz covering Big O notation and algorithm complexity",
+    "dueDate": "2024-12-15T14:30:00.000Z",
+    "priority": "low",
+    "status": "completed",
+    "grade": 95,
+    "maxPoints": 100,
+    "weight": 0.05
+  },
+  {
+    "Id": 7,
+    "courseId": 2,
+    "title": "Integration Techniques Homework",
+    "description": "Practice problems on various integration methods",
+    "dueDate": "2024-12-16T23:59:59.000Z",
+    "priority": "low",
+    "status": "completed",
+    "grade": 88,
+    "maxPoints": 50,
+    "weight": 0.08
+  },
+  {
+    "Id": 8,
+    "courseId": 3,
+    "title": "Grammar and Style Exercise",
+    "description": "Complete exercises 1-15 on proper citation and grammar",
+    "dueDate": "2024-12-14T23:59:59.000Z",
+    "priority": "low",
+    "status": "completed",
+    "grade": 92,
+    "maxPoints": 25,
+    "weight": 0.05
+  }
+]
