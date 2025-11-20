@@ -1,5 +1,6 @@
-import { getApperClient } from "@/services/apperClient";
 import { toast } from "react-toastify";
+import React from "react";
+import { getApperClient } from "@/services/apperClient";
 
 const gradeToGPA = {
   "A+": 4.0, "A": 4.0, "A-": 3.7,
@@ -138,8 +139,7 @@ export const gradeService = {
     }
   },
 
-  letterToGPA(letter) {
-    return gradeToGPA[letter] || 0.0
 letterToGPA(letter) {
     return gradeToGPA[letter] || 0.0
   }
+}

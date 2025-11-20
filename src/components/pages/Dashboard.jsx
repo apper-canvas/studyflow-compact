@@ -73,7 +73,7 @@ const Dashboard = () => {
     ? (courses.reduce((sum, course) => sum + (course.currentGrade_c || course.currentGrade || 0), 0) / courses.length / 100 * 4).toFixed(2)
     : "0.00"
 
-const getCourseById = (courseId) => courses.find(c => c.Id === (courseId || courseId_c))
+const getCourseById = (courseId) => courses.find(c => c.Id === courseId)
 
   const handleToggleAssignment = async (assignment) => {
     try {
